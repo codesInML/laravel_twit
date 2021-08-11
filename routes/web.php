@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
+// authentication routes
 Route::get('/auth/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/auth/register', [RegisterController::class, 'store']);
 
@@ -27,10 +27,14 @@ Route::post('/auth/login', [LoginController::class, 'store']);
 
 Route::post('/auth/logout', [LogoutController::class, 'store'])->name('logout');
 
-Route::get('/posts', function () {
-    return view('posts.index');
-})->name('posts');
+// dashboard route
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+// posts route
+Route::get('/posts', [PostController::class, 'index'])->name('posts');
+Route::get('/posts', [PostController::class, 'store']);
+
+// home route
 Route::get('/', function () {
     return view('home');
 })->name('home');
