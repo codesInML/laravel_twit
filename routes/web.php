@@ -32,7 +32,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // posts route
 Route::get('/posts', [PostController::class, 'index'])->name('posts');
-Route::get('/posts', [PostController::class, 'store']);
+Route::post('/posts', [PostController::class, 'store']);
 
 // home route
 Route::get('/', function () {
