@@ -28,6 +28,7 @@
             <p class="mb-2">{{ $post->body }}</p>
 
             <div class="flex items-center">
+                @auth
                 @if(!$post->likedBy(auth()->user()))
                 <form action="{{ route('post.likes', $post) }}" method="post" class="mr-1">
                     @csrf
@@ -40,6 +41,16 @@
                     <button type="submit" class="text-blue-500">Unike</button>
                 </form>
                 @endif
+                
+                @if ($post->ownedBy(auth()->user()))
+                <form action="{{ route('posts.delete', $post) }}" method="post" class="ml-1 mr-2">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-red-500">Delete</button>
+                </form>
+                @endif
+
+                @endauth
                 <span>{{ $post->likes->count() }} {{ Str::plural('like', $post->likes->count()) }}</span>
             </div>
 
