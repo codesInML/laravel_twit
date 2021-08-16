@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex justify-center">
-    <div class="w-2/3 bg-white p-6 rounded-lg">
+    <div class="w-2/3 mb-4 bg-white p-6 rounded-lg">
         <form action="{{ route('posts') }}" method="post" class="mb-4">
             @csrf
             <div class="mb-4">
@@ -28,14 +28,19 @@
             <p class="mb-2">{{ $post->body }}</p>
 
             <div class="flex items-center">
-                <form action="" method="post" class="mr-1">
+                @if(!$post->likedBy(auth()->user()))
+                <form action="{{ route('post.likes', $post) }}" method="post" class="mr-1">
                     @csrf
                     <button type="submit" class="text-blue-500">Like</button>
                 </form>
-                <form action="" method="post" class="mr-1">
+                @else
+                <form action="{{ route('post.likes', $post) }}" method="post" class="mr-1">
                     @csrf
+                    @method('DELETE')
                     <button type="submit" class="text-blue-500">Unike</button>
                 </form>
+                @endif
+                <span>{{ $post->likes->count() }} {{ Str::plural('like', $post->likes->count()) }}</span>
             </div>
 
         </div>
